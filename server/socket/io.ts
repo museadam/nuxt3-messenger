@@ -7,7 +7,7 @@ export default defineIOHandler((io) => {
   io.on("connection", (socket) => {
     // console.log("Connected ", socket.id);
     socket.on("register", function (user) {
-      console.log("User has connected to " + socket.id);
+      console.log("User" + user + "has connected to " + socket.id);
       // TODO: Trigger a load of the conversations for the user upon registration
       // console.log('user ' + slug + ' has entered the chat')
       // connectedUsers[user.id];
@@ -63,27 +63,10 @@ export default defineIOHandler((io) => {
       // }
     });
 
-    // * If receiving user is not connected
-    // disconnect function
     socket.on("disconnecting", () => {
       console.log("disconnecting... your rooms: " + socket.rooms); // the Set contains at least the socket ID
     });
-    // TODO: Remove user from connected users when user disconnects
-    // socket.on("disconnect", (room, user) => {
-    //   // console.log('got disconnected')
-    //   const user = users.removeUser(socket.id);
-    //   if (user) {
-    //     // console.log('User got disconnected')
-    //     // io.to(room).emit(
-    //     //   "updated-user-list",
-    //     //   users.getUserList(room)
-    //     // );
-    //     // const message = "User has disconnected";
-    //     // io.to(room).emit("new-message", message);
-    //   }
-    //   // TODO: Remove users from connected users
-    //   // socket.rooms.size === 0
-    // });
+
     socket.on("leave-room", (room, user) => {
       // console.log('leaving room')
       socket.leave(room);
@@ -98,14 +81,5 @@ export default defineIOHandler((io) => {
 
       // socket.emit('disconnect')
     });
-
-    // Get last messages
-    // socket.on('last-messages', function (fn) {
-    //   fn(messages.slice(-50))
-    // })
-    // ! Deprecated
-    // socket.on('send-message', function (message) {
-    //   socket.broadcast.emit('new-message', message)
-    // })
   });
 });

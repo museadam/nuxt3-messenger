@@ -6,15 +6,23 @@
 
 <script setup>
 import { currentUser } from '~/store/store';
+const { data: user } = await useAsyncData('user', () => {
+  const getUser = localStorage.getItem('User')
+  console.log(getUser)
 
-const socket = useSocket()
-const random = Math.floor((Math.random() * 100) + 1)
-const id = random.toString();
-currentUser.name = 'G' + id
-currentUser.id = id
-onBeforeMount(() => {
+  if (getUser) {
+    const decode = JSON.parse(getUser)
+    console.log(decode)
+    return decode
+  }
+})
+onMounted(() => {
+  // console.log(toRaw(user.value))
+  const val = toRaw(user.value)
+  currentUser.value = { ...val }
 
 })
+
 </script>
 
 <style>

@@ -1,10 +1,9 @@
 import { Message } from "~/types/message";
 export const onSendMessage = async (message: Message) => {
-  const ret = await $fetch("/api/send-message", {
-    method: "POST",
-    body: JSON.stringify({
-      message: message,
-    }),
-  });
+  const data = {
+    message: msg,
+    room: room.value,
+  };
+  socket.emit("send:private-chat", data);
   return ret;
 };

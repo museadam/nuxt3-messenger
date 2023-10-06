@@ -1,22 +1,13 @@
 <template>
-  <div class=" flex   justify-center">
+  <div class="flex justify-center">
 
-    <div class=" flex flex-col w-80% ">
+    <div class="flex flex-col w-80% ">
       <div>
-        <p>
-          You are {{ currentUser.name }}
-        </p>
+        <ConnectUserDisplay :connect-users="connectUsers" />
       </div>
       <div class="contained m-3  outline  rounded-lg p-2 outline-black">
         <Messages />
-
       </div>
-
-      <!-- <v-row>
-
-          <v-col cols="12">
-            </v-col>
-        </v-row> -->
       <div>
 
         <InputMessage @send="send" />
@@ -27,6 +18,8 @@
 <script setup lang="ts">
 import { message, messages, currentUser } from '~/store/store';
 import { Message } from '~/types/message';
+import { User } from '~/types/user';
+
 const route = useRoute()
 console.log(route.params.room)
 // const user: User = ''
@@ -38,26 +31,29 @@ const socket = useSocket()
 const connected = ref(false)
 const roomStr = route.params.room.toString()
 let room = ref(roomStr)
+let connectUsers = ref()
 // Custom
 const user = currentUser
-socket.emit('joined-room', room.value, user)
 // const io = useIO()
 // const socket2 = io('http://localhost:3069')
 
 onMounted(() => {
+  socket.emit('joined-room', room.value, user)
 
-  socket.on('updated-user-list', (users) => {
+  socket.on('updated-user-list', (users: User[]) => {
     console.log('connected users: ' + users)
     connected.value = socket.connected
-
+    connectUsers.value = users
     console.log('connected to room: ' + room.value)
 
   })
 
 
   socket.off('receive:private-chat')
-
-  socket.on('receive:private-chat', (data) => {
+  type DataObj = {
+    message: Message
+  }
+  socket.on('receive:private-chat', (data: DataObj) => {
     console.log(data)
     console.log('data')
     messages.value.push(data.message)
@@ -73,17 +69,11 @@ onBeforeRouteLeave(() => {
 })
 const send = async () => {
   console.log('sending')
-
   const from = currentUser.id
   const date = new Date().toDateString()
   const msg: Message = { id: `${messages.value.length + 1}`, room: room.value, text: message.value, from, date, }
-  // messages.value.push(msg)
-  const data = {
-    message: msg,
-    room: room.value,
-  }
-  socket.emit('send:private-chat', data)
-  // await onSendMessage(msg)
+
+  await onSendMessage(msg)
   console.log('sent')
   message.value = ''
 

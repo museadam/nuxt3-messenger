@@ -1,8 +1,7 @@
 import { Message } from "~/types/message";
-export const messages: Ref<Message[]> = ref([]);
-export const message = ref("");
+import type { User } from "@prisma/client";
 
-export const currentUser = reactive({
-  name: "",
-  id: "",
-});
+export let messages: Ref<Message[]> = ref([]);
+export let message = ref("");
+
+export let currentUser: User | {} = ref({});

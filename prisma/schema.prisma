@@ -1,0 +1,50 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(uuid())
+  createdAt     DateTime       @default(now())
+  name          String
+  firstName     String?
+  lastName      String?
+  username      String?
+  email         String         @unique
+  role          Role           @default(BASIC)
+  messages      Message[]
+  conversations Conversation[]
+  // sentConversations     Conversation[]   @relation("SentConversations")
+  // receivedConversations Conversation[]   @relation("ReceivedConversations")
+}
+
+model Message {
+  id           String       @id @default(uuid())
+  createdAt    DateTime     @default(now())
+  fromId       String
+  from         User         @relation(fields: [fromId], references: [id])
+  convoId      String
+  conversation Conversation @relation(fields: [convoId], references: [id])
+}
+
+model Conversation {
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  users     User[]
+  messages  Message[]
+
+  // user1Id String
+  // user1 User @relation("SentConversations", fields: [user1Id], references: [id])
+  // user2Id String
+  // user2 User @relation("ReceivedConversations",fields: [user2Id], references: [id])
+}
+
+enum Role {
+  BASIC
+  ADMIN
+}
