@@ -2,8 +2,10 @@ version: "3.8"
 
 services:
   nuxt:
-    build: ./
-    restart: always
+    container_name: nuxt-messenger
+
+    build: ./app/
+    # restart: always
     ports:
       - "3000:3000"
       # - "9200:9200"
@@ -13,9 +15,8 @@ services:
 
     command:
       "npm run start"
-    container_name: nuxt
-    networks:
-      - esnet
+#     networks:
+#       - esnet
 
-networks:
-  esnet:
+# networks:
+#   esnet:
