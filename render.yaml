@@ -1,7 +1,7 @@
 services:
   - type: web
     name: nuxt-message
-    env: node
+    env: docker
     plan: starter
     buildCommand: yarn; yarn build
     startCommand: yarn start
