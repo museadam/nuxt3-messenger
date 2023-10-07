@@ -1,9 +1,9 @@
 FROM node:18.16.0
 
-ENV APP_ROOT .
+# ENV APP_ROOT .
 # ENV HOST 0.0.0.0
-WORKDIR ${APP_ROOT}
-COPY . ${APP_ROOT}
+# WORKDIR ${APP_ROOT}
+# COPY . ${APP_ROOT}
 RUN apt-get update && \
    npm ci && \
    npm run builder
