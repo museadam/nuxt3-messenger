@@ -1,8 +1,9 @@
 <template>
   <div class="flex">
-    <form class="flex">
+    <form class="flex w-100%">
 
-      <input v-model="message" class="px-2 m-1 p-3 rounded" label="Create a message" @keyup.enter="$emit('send')" />
+      <input v-model="message" class="px-2 m-1 p-3 rounded" label="Create a message"
+        @keyup.enter.prevent="$emit('send')" />
       <button @click.prevent="$emit('send')">
         Send
       </button>

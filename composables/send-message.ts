@@ -1,9 +1,23 @@
-import { Message } from "~/types/message";
-export const onSendMessage = async (message: Message) => {
+// export const onStoreMessage = async ()
+export const onSendMessage = async (
+  message: String,
+  convoId: String,
+  userId: String
+) => {
+  const { data: msg } = await useFetch("/api/v1/messages", {
+    method: "POST",
+    body: {
+      message,
+      convoId,
+      userId,
+    },
+    watch: false,
+  });
+  console.log(toRaw(msg.value.data));
   const data = {
-    message: msg,
-    room: room.value,
+    message: toRaw(msg.value.data),
+    room: convoId,
   };
-  socket.emit("send:private-chat", data);
-  return ret;
+  useSocket().emit("send:private-chat", data);
+  return "Sent!";
 };

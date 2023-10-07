@@ -21,22 +21,17 @@ import { Message } from '~/types/message';
 import { User } from '~/types/user';
 
 const route = useRoute()
-console.log(route.params.room)
-// const user: User = ''
-
-// const { $socket } = useNuxtApp()
-const socket = useSocket()
-
-
 const connected = ref(false)
-const roomStr = route.params.room.toString()
+const roomStr = route.query.id?.toString()
 let room = ref(roomStr)
 let connectUsers = ref()
-// Custom
-const user = currentUser
+const user = currentUser.value
+const socket = useSocket()
 // const io = useIO()
 // const socket2 = io('http://localhost:3069')
-
+const id = room.value ?? ''
+const df = await useRoomMessages(id)
+console.log(df)
 onMounted(() => {
   socket.emit('joined-room', room.value, user)
 
@@ -47,7 +42,6 @@ onMounted(() => {
     console.log('connected to room: ' + room.value)
 
   })
-
 
   socket.off('receive:private-chat')
   type DataObj = {
@@ -69,11 +63,16 @@ onBeforeRouteLeave(() => {
 })
 const send = async () => {
   console.log('sending')
-  const from = currentUser.id
-  const date = new Date().toDateString()
-  const msg: Message = { id: `${messages.value.length + 1}`, room: room.value, text: message.value, from, date, }
+  const userId = currentUser.value.id
+  // console.log(userId)
 
-  await onSendMessage(msg)
+  const msg = message.value
+  // console.log(msg)
+
+  const convoId = room.value
+  // console.log(convoId)
+
+  await onSendMessage(msg, convoId, userId)
   console.log('sent')
   message.value = ''
 
