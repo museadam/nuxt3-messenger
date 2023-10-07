@@ -42,7 +42,7 @@ async function login() {
 
 
       localStorage.setItem('User', JSON.stringify({
-        ...currentUser
+        id: loginResponse.data?.id
       }))
 
     }

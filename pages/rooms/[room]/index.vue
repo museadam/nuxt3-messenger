@@ -2,6 +2,12 @@
   <ChatRoom />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ChatRoom } from '#components'
 </script>
+
+<style>
+body {
+  overflow-y: hidden;
+}
+</style>

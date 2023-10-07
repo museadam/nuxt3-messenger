@@ -47,15 +47,21 @@ const signUp = async () => {
         email,
       }),
     })
-    console.log(signUpResponse.status)
+    // console.log(signUpResponse.status)
 
     if (signUpResponse.status === 200) {
-
+      const user = useCookie(
+        'user',
+        {
+          default: () => ({ id: signUpResponse.data?.id }),
+          watch: false
+        }
+      )
       currentUser.value = signUpResponse.data
 
-      console.log(currentUser.value)
+      // console.log(currentUser.value)
       localStorage.setItem('User', JSON.stringify({
-        ...signUpResponse.data
+        id: signUpResponse.data?.id
       }))
 
     }
