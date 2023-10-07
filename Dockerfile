@@ -4,8 +4,7 @@ FROM node:18.16.0
 # ENV HOST 0.0.0.0
 # WORKDIR ${APP_ROOT}
 # COPY . ${APP_ROOT}
-RUN apt-get update && \
-   npm ci && \
+RUN npm ci && \
    npm run builder
 
 
