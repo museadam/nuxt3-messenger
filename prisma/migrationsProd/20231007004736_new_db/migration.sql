@@ -3,13 +3,13 @@ CREATE TYPE "Role" AS ENUM ('BASIC', 'ADMIN');
 
 -- CreateTable
 CREATE TABLE "User" (
-    "id" TEXT NOT NULL,
+    "id" STRING NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "name" TEXT NOT NULL,
-    "firstName" TEXT,
-    "lastName" TEXT,
-    "username" TEXT,
-    "email" TEXT NOT NULL,
+    "name" STRING NOT NULL,
+    "firstName" STRING,
+    "lastName" STRING,
+    "username" STRING,
+    "email" STRING NOT NULL,
     "role" "Role" NOT NULL DEFAULT 'BASIC',
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
@@ -17,17 +17,17 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "Message" (
-    "id" TEXT NOT NULL,
+    "id" STRING NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "fromId" TEXT NOT NULL,
-    "convoId" TEXT NOT NULL,
+    "fromId" STRING NOT NULL,
+    "convoId" STRING NOT NULL,
 
     CONSTRAINT "Message_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Conversation" (
-    "id" TEXT NOT NULL,
+    "id" STRING NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Conversation_pkey" PRIMARY KEY ("id")
@@ -35,8 +35,8 @@ CREATE TABLE "Conversation" (
 
 -- CreateTable
 CREATE TABLE "_ConversationToUser" (
-    "A" TEXT NOT NULL,
-    "B" TEXT NOT NULL
+    "A" STRING NOT NULL,
+    "B" STRING NOT NULL
 );
 
 -- CreateIndex
