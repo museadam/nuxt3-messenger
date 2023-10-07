@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: nuxt-js
+    name: nuxt-message
     env: node
     plan: starter
     buildCommand: yarn; yarn build

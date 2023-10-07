@@ -2,4 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@unocss/nuxt"],
+  server: {
+    host: "0.0.0.0",
+  },
 });
