@@ -2,7 +2,7 @@
   <div>
     <div>
       <p class="text-xs">
-        {{ msg.date }}
+        {{ msg.createdAt }}
       </p>
     </div>
   </div>

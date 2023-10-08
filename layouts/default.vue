@@ -1,11 +1,12 @@
 <template>
   <div>
+    <LayoutNavDrawer />
     <slot />
   </div>
 </template>
 
 <script setup lang="ts">
-import { currentUser } from '~/store/store';
+import '../style.css'
 // const { data } = await useAsyncData(async () => {
 //   // console.log('useAsyncData')
 
@@ -39,8 +40,9 @@ const id = key.id
 const user = await useGetUser(id)
 console.log(user);
 console.log(toRaw(user.value))
-const val = toRaw(user.value.user)
-currentUser.value = { ...val }
+// const val = toRaw(user.value.user)
+// currentUser.value = { ...val }
+useState('currentUser', () => user.value.user)
 
 // onMounted(async () => {
 

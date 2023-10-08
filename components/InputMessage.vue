@@ -4,7 +4,7 @@
 
       <input v-model="message" class="px-2 m-1 p-3 rounded" label="Create a message"
         @keyup.enter.prevent="$emit('send')" />
-      <button @click.prevent="$emit('send')">
+      <button rounded="xl" class="p-2 m-2" @click.prevent="$emit('send')">
         Send
       </button>
     </form>
@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import { message } from '~/store/store'
+let message = useState('message')
 </script>
 
 <style>

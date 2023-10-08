@@ -1,5 +1,4 @@
-// export const onStoreMessage = async ()
-export const onSendMessage = async (
+export const useStoreMessage = async (
   message: String,
   convoId: String,
   userId: String
@@ -13,9 +12,17 @@ export const onSendMessage = async (
     },
     watch: false,
   });
-  console.log(toRaw(msg.value.data));
+  return msg;
+};
+
+export const onSendMessage = async (
+  message: String,
+  convoId: String,
+  userId: String
+) => {
+  const msg = await useStoreMessage(message, convoId, userId);
   const data = {
-    message: toRaw(msg.value.data),
+    message: msg.value?.data,
     room: convoId,
   };
   useSocket().emit("send:private-chat", data);

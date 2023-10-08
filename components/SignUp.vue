@@ -24,7 +24,8 @@
 import type { User } from "@prisma/client";
 
 import { APIResponse } from '~/types/api'
-import { currentUser } from '~/store/store';
+
+
 let name: string;
 let email: string;
 let lName: string;
@@ -40,12 +41,12 @@ const signUp = async () => {
 
     const signUpResponse: APIResponse<User> = await $fetch('/api/v1/users/sign-up', {
       method: "POST",
-      body: JSON.stringify({
+      body: {
         name,
         firstName,
         lastName,
         email,
-      }),
+      },
     })
     // console.log(signUpResponse.status)
 
@@ -57,12 +58,11 @@ const signUp = async () => {
           watch: false
         }
       )
-      currentUser.value = signUpResponse.data
-
+      const currentUser = useState('currentUser', () => signUpResponse.data)
       // console.log(currentUser.value)
-      localStorage.setItem('User', JSON.stringify({
-        id: signUpResponse.data?.id
-      }))
+      // localStorage.setItem('User', JSON.stringify({
+      //   id: signUpResponse.data?.id
+      // }))
 
     }
   } catch (err) {

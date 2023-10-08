@@ -21,7 +21,6 @@
 import type { User } from "@prisma/client";
 
 import { APIResponse } from '~/types/api'
-import { currentUser } from '~/store/store';
 let email: string;
 
 
@@ -33,17 +32,19 @@ async function login() {
 
     const loginResponse: APIResponse<User> = await $fetch('/api/v1/users/login', {
       method: "POST",
-      body: JSON.stringify({
+      body: {
         email,
-      }),
+      },
     })
     if (loginResponse.status === 200) {
-      currentUser.value = loginResponse.data
-
-
-      localStorage.setItem('User', JSON.stringify({
-        id: loginResponse.data?.id
-      }))
+      const user = useCookie(
+        'user',
+        {
+          default: () => ({ id: loginResponse.data?.id }),
+          watch: false
+        }
+      )
+      const currentUser = useState('currentUser', () => loginResponse.data)
 
     }
   } catch (err) {

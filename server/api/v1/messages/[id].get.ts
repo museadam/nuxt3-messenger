@@ -4,11 +4,10 @@ export default defineEventHandler(async (event) => {
   const { id } = event.context.params;
   const messages: Message[] = await prisma.message.findMany({
     where: {
-      conversation: {
-        id,
-      },
+      convoId: id,
     },
   });
+  console.log(messages);
   return {
     messages,
   };

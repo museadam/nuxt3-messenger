@@ -7,15 +7,16 @@
     "dev": "nuxt dev",
     "devDb": "npx prisma migrate dev --preview-feature && npx prisma generate && nuxt dev",
     "buildDb": "npx prisma migrate dev --preview-feature && npx prisma generate",
-
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@iconify/json": "^2.2.125",
     "@nuxt/devtools": "latest",
     "@prisma/client": "^5.4.1",
     "@unocss/nuxt": "^0.56.5",
+    "@unocss/preset-icons": "^0.56.5",
     "fast-glob": "^3.3.1",
     "nuxt": "^3.7.4",
     "prisma": "^5.4.1",
