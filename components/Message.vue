@@ -5,12 +5,19 @@
         {{ msg.createdAt }}
       </p>
     </div>
-  </div>
-  <div>
+    <div>
 
-    <p>
-      {{ msg.text }}
-    </p>
+      <p>
+        {{ msg.text }}
+      </p>
+    </div>
+
+    <!-- <div>
+
+<caption>
+  {{ msg.read }}
+</caption>
+</div> -->
   </div>
 </template>
 

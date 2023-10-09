@@ -7,47 +7,21 @@
 
 <script setup lang="ts">
 import '../style.css'
-// const { data } = await useAsyncData(async () => {
-//   // console.log('useAsyncData')
 
-//   const getUserInfo = await useGetUser(id)
-//   console.log(getUserInfo)
-//   return getUserInfo // await useGetUser()
-// })
-// const getStorage = () => {
-//   const getLSUser = localStorage.getItem("User");
-//   console.log(getLSUser);
-//   console.log("getUserrr");
-
-//   let id;
-//   if (getLSUser) {
-//     const parsed = JSON.parse(getLSUser);
-//     id = parsed.id;
-//     console.log(id);
-//     return id
-
-//   } else {
-//     return
-//   }
-// }
 const getCookie = useCookie('user')
-const key = toRaw(getCookie.value) ?? ''
-const id = key.id
 
-// const { data } = useNuxtData(id)
-// console.log(data);
+const key = getCookie.value ?? false
+const id = key.id ?? false
+let user
+if (id) {
+  user = await useGetUser(id)
+}
+if (user) {
+  useState('currentUser', () => user.value.user)
+}
+const getChat = await useChatRooms()
+useState('rooms', () => getChat.value?.conversations ?? [])
 
-const user = await useGetUser(id)
-console.log(user);
-console.log(toRaw(user.value))
-// const val = toRaw(user.value.user)
-// currentUser.value = { ...val }
-useState('currentUser', () => user.value.user)
-
-// onMounted(async () => {
-
-
-// })
 
 </script>
 

@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "cockroachdb"
   url      = env("DATABASE_URL")
 }
 
@@ -19,8 +19,6 @@ model User {
   role          Role           @default(BASIC)
   messages      Message[]
   conversations Conversation[]
-  // sentConversations     Conversation[]   @relation("SentConversations")
-  // receivedConversations Conversation[]   @relation("ReceivedConversations")
 }
 
 model Message {
@@ -31,6 +29,7 @@ model Message {
   convoId      String
   conversation Conversation @relation(fields: [convoId], references: [id])
   text         String
+  read         Boolean      @default(false)
 }
 
 model Conversation {
@@ -39,10 +38,7 @@ model Conversation {
   users     User[]
   messages  Message[]
   name      String    @unique
-  // user1Id String
-  // user1 User @relation("SentConversations", fields: [user1Id], references: [id])
-  // user2Id String
-  // user2 User @relation("ReceivedConversations",fields: [user2Id], references: [id])
+  private   Boolean   @default(false)
 }
 
 enum Role {

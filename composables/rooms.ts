@@ -13,3 +13,16 @@ export const useCreateRoom = async (name: string) => {
 
   return room;
 };
+
+export const useAddNewMember = async (userId: string, room: string) => {
+  const { data: newRoom } = await useFetch("/api/v1/conversations", {
+    key: room,
+    method: "PUT",
+    body: {
+      userId,
+      roomId: room,
+    },
+  });
+
+  return newRoom;
+};

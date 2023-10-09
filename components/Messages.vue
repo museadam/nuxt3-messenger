@@ -4,19 +4,20 @@
       <div v-for="msg in messages" :key="msg.id">
         <div>
           <div :id="`msg-${msg.id}`" v-if="msg.fromId !== currentUser.id" align="end" rounded="xl"
-            class="pa-2 px-4 rounded-br-0 m-3 outline" bg="green" outline="black" text-light>
+            class="msgCard rounded-br-0 " bg="green-200">
             <Message :msg="msg" />
-            <!-- <v-btn color="red" icon small class="pa-1" @click="deleteMessage(index)">
-                <v-icon small v-text="'mdi-delete'" />
-              </v-btn> -->
+            <div color="black" class="flex align-start">
+
+              <i class="iconFlag" />
+            </div>
+
           </div>
           <div :id="`msg-${msg.id}`" v-else-if="msg.fromId === currentUser.id" rounded="xl" align="start"
-            class="pa-3 px-4 rounded-bl-0 m-3 outline outline-black" bg="light-blue" text-light>
+            class="msgCard rounded-bl-0 " bg="light-blue-200">
             <Message :msg="msg" />
-            <!-- 
-              <v-btn color="black" small icon class="pa-1 pr-2">
-                <v-icon small v-text="'mdi-flag'" />
-              </v-btn> -->
+            <div color="red" class="flex align-end ">
+              <i class="iconDel" />
+            </div>
           </div>
         </div>
 
@@ -40,19 +41,29 @@ const scrollToElement = async (id: string) => {
 }
 
 watch(messages.value, async (msg) => {
-  console.log('watching u')
   const length = msg.length ?? 0
-  console.log(msg)
   const currentMessage = msg[length - 1].id
-  console.log(currentMessage)
   await scrollToElement(currentMessage)
 })
 onMounted(async () => {
   const length = messages.value.length ?? 0
-  console.log(length)
-  const currentMessage = messages.value[length - 1].id
-  console.log(currentMessage)
-  await scrollToElement(currentMessage)
+  if (length > 0) {
+    const currentMessage = messages.value[length - 1].id
+    await scrollToElement(currentMessage)
+  }
 })
 </script>
 
+<style>
+.msgCard {
+  @apply pa-3 px-4 m-3 outline outline-black;
+}
+
+.iconDel {
+  @apply pr-1 i-ooui:trash;
+}
+
+.iconFlag {
+  @apply pl-1 i-ooui:flag-ltr;
+}
+</style>

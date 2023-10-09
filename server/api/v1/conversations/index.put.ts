@@ -2,10 +2,17 @@ import prisma from "~/utils/prisma/client";
 import type { Conversation } from "@prisma/client";
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
-  const { name } = body;
-  const conversation: Conversation = await prisma.conversation.create({
+  const { userId, roomId } = body;
+  const conversation: Conversation = await prisma.conversation.update({
+    where: {
+      id: roomId,
+    },
     data: {
-      name,
+      users: {
+        connect: {
+          id: userId,
+        },
+      },
     },
   });
   return {

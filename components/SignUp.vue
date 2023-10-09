@@ -12,9 +12,13 @@
           <input type="text" placeholder="Last name" class="text" id="lastName" required v-model="lName" /><br />
           <input type="text" placeholder="Email" class="text" id="email" required v-model="email" /><br />
 
-          <button @click.once.prevent="signUp" class="btn-login mt-3" id="do-login">Submit</button>
+          <button rounded="xl" class="p-2 mt-1" bg="green" @click.once.prevent="signUp" id="do-login">Submit</button>
           <!-- <a href="/" class="forgot">Forgot?</a> -->
         </form>
+        <div>
+          <button rounded="xl" class="p-2 mt-1" bg="blue" @click="$router.push('/login')">Login</button>
+
+        </div>
       </div>
     </section>
   </div>

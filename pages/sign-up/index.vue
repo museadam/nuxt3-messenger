@@ -1,10 +1,9 @@
 <template>
   <div class="flex">
-    <Login />
+    <SignUp />
   </div>
 </template>
 
-
 <script setup lang="ts">
-import { Login } from '#components'
+import { SignUp } from '#components'
 </script>
