@@ -1,9 +1,9 @@
 <template>
-  <ChatRoom />
+  <MessengerChatRoom />
 </template>
 
 <script setup lang="ts">
-import { ChatRoom } from '#components'
+import { MessengerChatRoom } from '#components'
 </script>
 
 <style>

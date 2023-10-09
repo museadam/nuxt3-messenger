@@ -7,21 +7,23 @@
 
 <script setup lang="ts">
 import '../style.css'
-
-const getCookie = useCookie('user')
-
-const key = getCookie.value ?? false
-const id = key.id ?? false
-let user
-if (id) {
-  user = await useGetUser(id)
+import { User } from "@prisma/client";
+type KeyObj = {
+  id: string
 }
-if (user) {
-  useState('currentUser', () => user.value.user)
+const getCookie: Ref<KeyObj> = useCookie("user");
+const id: Ref<string> = ref(getCookie.value.id ?? false);
+// console.log(id)
+let user: Ref<User>;
+if (id.value) {
+  const res = await useGetUser(id.value);
+  user = res
 }
-const getChat = await useChatRooms()
-useState('rooms', () => getChat.value?.conversations ?? [])
-
-
+if (user.value) {
+  useState("currentUser", () => user.value);
+}
+const getChat = await useChatRooms();
+console.log(getChat)
+useState("rooms", () => getChat.value?.conversations ?? []);
 </script>
 

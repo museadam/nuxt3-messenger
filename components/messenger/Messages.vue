@@ -5,7 +5,7 @@
         <div>
           <div :id="`msg-${msg.id}`" v-if="msg.fromId !== currentUser.id" align="end" rounded="xl"
             class="msgCard rounded-br-0 " bg="green-200">
-            <Message :msg="msg" />
+            <MessengerMessage :msg="msg" />
             <div color="black" class="flex align-start">
 
               <i class="iconFlag" />
@@ -14,7 +14,7 @@
           </div>
           <div :id="`msg-${msg.id}`" v-else-if="msg.fromId === currentUser.id" rounded="xl" align="start"
             class="msgCard rounded-bl-0 " bg="light-blue-200">
-            <Message :msg="msg" />
+            <MessengerMessage :msg="msg" />
             <div color="red" class="flex align-end ">
               <i class="iconDel" />
             </div>
@@ -27,14 +27,16 @@
 </template>
 
 <script setup lang="ts">
-const currentUser = useState('currentUser')
-const messages = useState('messages')
+import type { User, Message } from "@prisma/client";
+
+const currentUser: Ref<User> = useState('currentUser')
+const messages: Ref<Message[]> = useState('messages')
 
 const scrollToElement = async (id: string) => {
   await nextTick()
 
   const el = document.getElementById(`msg-${id}`);
-  console.log(el)
+  // console.log(el)
   if (el) {
     el.scrollIntoView({ behavior: 'smooth' });
   }

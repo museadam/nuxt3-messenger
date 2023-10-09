@@ -1,35 +1,42 @@
 <template>
   <div class="grid grid-cols-12 justify-center">
     <div class="col-span-2 m-3  <sm:col-span-10">
-      <ConnectUserDisplay :connect-users="connectUsers" :room-details="roomDetails" />
+      <MessengerConnectUserDisplay :connect-users="connectUsers" :room-details="roomDetails" />
     </div>
     <div class="flex flex-col col-span-8 <sm:col-span-10">
 
       <div class="contained">
-        <Messages />
+        <MessengerMessages />
       </div>
       <div>
 
-        <InputMessage @send="send" />
+        <MessengerInputMessage @send="send" />
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { Message } from '~/types/message';
+import { Message as Msg } from '~/types/message';
 import { User } from '~/types/user';
 // let message: Ref<string> = useState('message', () => ref(''))
-import type { Conversation } from "@prisma/client";
+import type { Conversation, Message } from "@prisma/client";
+useState('message', () => '')
 
-const route = useRoute()
+let route = useRoute()
 const connected = ref(false)
-const roomStr = route.query.id?.toString() ?? ''
+const roomStr = ref()
 const currentUser: Ref<User> = useState('currentUser')
 const rooms: Ref<Conversation[]> = useState('rooms')
-let room: Ref<String> = ref(roomStr)
+const room: Ref<string> = ref(route.query.id?.toString() ?? '')
+console.log(room)
+console.log('room')
+if (room.value === '') {
+  navigateTo("/");
 
-const roomDetails = reactive(rooms.value.filter((roo: Conversation) => roo.id === room.value)[0] ?? false)
-console.log(roomDetails.users)
+}
+
+const roomDetails = reactive(rooms.value.filter((roo: Conversation) => roo.id === room.value)[0])
+console.log(roomDetails)
 console.log('roomDetails')
 
 let connectUsers = ref()
@@ -43,7 +50,7 @@ if (roomDetails) {
 if (!checkIfMember) {
   const userId = user.id
   const roomId = room.value
-  useAddNewMember(userId, roomId)
+  await useAddNewMember(userId, roomId)
   roomDetails
 }
 
@@ -53,9 +60,9 @@ const setMessages = ref(getMsgs)
 useState('messages', () => setMessages)
 
 
-const messages = useState<Ref<Message[]>>('messages')
+const messages: Ref<Message[]> = useState('messages')
 
-console.log(messages)
+// console.log(messages)
 // console.log(toRaw(messages.value))
 const socket = useSocket()
 // const io = useIO()
@@ -65,6 +72,8 @@ onMounted(() => {
 
   socket.on('updated-user-list', (users: User[]) => {
     // console.log('connected users: ' + users)
+    console.log('updating connected users')
+
     connected.value = socket.connected
     connectUsers.value = users
     console.log('connected to room: ' + room.value)
@@ -72,12 +81,12 @@ onMounted(() => {
 
   socket.off('receive:private-chat')
   type DataObj = {
-    message: Message
+    message: Msg
   }
   socket.on('receive:private-chat', (data: DataObj) => {
     // console.log(data)
     // console.log('data')
-    // console.log('receiving private-chat')
+    console.log('receiving private-chat')
     // // const msgs = [...messages.value]
     // console.log(messages)
     messages.value.push(data.message)
@@ -103,7 +112,7 @@ const send = async () => {
   const convoId = room.value
   // console.log(convoId)
 
-  await onSendMessage(msg, convoId, userId)
+  await onSendMessage(msg.value, convoId, userId)
   clearNuxtState('message')
   console.log('sent')
 
