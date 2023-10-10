@@ -30,7 +30,7 @@
 import type { User, Message } from "@prisma/client";
 
 const currentUser: Ref<User> = useState('currentUser')
-const messages: Ref<Message[]> = useState('messages')
+let messages: Ref<Message[]> = useState('messages')
 
 const scrollToElement = async (id: string) => {
   await nextTick()
@@ -47,7 +47,9 @@ watch(messages.value, async (msg) => {
   const currentMessage = msg[length - 1].id
   await scrollToElement(currentMessage)
 })
+
 onMounted(async () => {
+
   const length = messages.value.length ?? 0
   if (length > 0) {
     const currentMessage = messages.value[length - 1].id

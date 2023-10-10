@@ -8,30 +8,8 @@ export default defineIOHandler((io) => {
     // console.log("Connected ", socket.id);
     socket.on("register", function (user) {
       console.log("User" + user + "has connected to " + socket.id);
-      // TODO: Trigger a load of the conversations for the user upon registration
-      // console.log('user ' + slug + ' has entered the chat')
-      // connectedUsers[user.id];
-      // connectedUsers[slug].emit('receive:register', {
-      //   connectedUsers
-      // })
     });
-    // socket.on("unregister", function (user) {
-    //   console.log("user " + slug + " has left the chat");
-    //   delete connectedUsers[user.id];
-    //   // connectedUsers[slug].emit('receive:unregister', {
-    //   //   connectedUsers
-    //   // })
-    //   const user = users.removeUser(socket.id);
-    //   if (user) {
-    //     // console.log('User left the chat')
-    //     io.to(user.room).emit(
-    //       "updated-user-list",
-    //       users.getUserList(user.room)
-    //     );
-    //     const message = "User left the chat";
-    //     io.to(user.room).emit("new-message", message);
-    //   }
-    // });
+
     socket.on("joined-room", function (room, user) {
       socket.join(room);
       const name = user.name;
@@ -64,11 +42,10 @@ export default defineIOHandler((io) => {
     });
 
     socket.on("disconnecting", () => {
-      console.log("disconnecting... your rooms: " + socket.rooms); // the Set contains at least the socket ID
+      console.log("disconnecting socket... " + " your rooms: " + socket.rooms); // the Set contains at least the socket ID
     });
 
     socket.on("leave-room", (room, user) => {
-      // console.log('leaving room')
       socket.leave(room);
       const user1 = users.removeUser(user.id);
       if (user1) {
@@ -77,9 +54,6 @@ export default defineIOHandler((io) => {
         const message = "User left the chat";
         io.to(room).emit("new-message", message);
       }
-      // console.log(socket.rooms)
-
-      // socket.emit('disconnect')
     });
   });
 });

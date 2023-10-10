@@ -17,9 +17,9 @@
 </template>
 <script setup lang="ts">
 import { Message as Msg } from '~/types/message';
-import { User } from '~/types/user';
+import { BasicUser, RoomDetail } from '~/types/user';
 // let message: Ref<string> = useState('message', () => ref(''))
-import type { Conversation, Message } from "@prisma/client";
+import type { Conversation, Message, User } from "@prisma/client";
 useState('message', () => '')
 
 let route = useRoute()
@@ -35,16 +35,15 @@ if (room.value === '') {
 
 }
 
-const roomDetails = reactive(rooms.value.filter((roo: Conversation) => roo.id === room.value)[0])
-console.log(roomDetails)
-console.log('roomDetails')
+
+const roomDetails: Partial<RoomDetail> = reactive(rooms.value.filter((roo: Conversation) => roo.id === room.value)[0])
+// console.log(roomDetails)
+// console.log('roomDetails')
 
 let connectUsers = ref()
 const user: User = currentUser.value
-let checkIfMember
-if (roomDetails) {
-  checkIfMember = roomDetails.users.filter((aUser: User) => aUser.id === user.id)[0] ?? false
-}
+const theUsers = roomDetails.users ?? []
+const checkIfMember = theUsers.filter((aUser: BasicUser) => aUser.id === user.id)[0] ?? false
 // console.log(checkIfMember)
 
 if (!checkIfMember) {

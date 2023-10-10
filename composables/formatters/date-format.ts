@@ -116,4 +116,34 @@ export function useDateFormat(
   return computed(() => formatDate(normalizeDate(date), formatStr, options));
 }
 
+export const useMessageFormat = (theDate: DateLike) => {
+  const date = normalizeDate(theDate);
+  // console.log(date);
+  const formatStr = "h:mm:ss";
+  const today = new Date();
+
+  let yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  if (
+    today.getDate() === date.getDate() &&
+    today.getMonth() === date.getMonth() &&
+    today.getFullYear() === date.getFullYear()
+  ) {
+    const res = useDateFormat(date, formatStr);
+    return "Today at " + res.value;
+  } else if (
+    yesterday.getDate() === date.getDate() &&
+    yesterday.getMonth() === date.getMonth() &&
+    yesterday.getFullYear() === date.getFullYear()
+  ) {
+    const res = useDateFormat(date, formatStr);
+
+    return "Yesterday at " + res.value;
+  } else {
+    const hours = useDateFormat(date, formatStr);
+    const years = useDateFormat(date, "MM/DD/YY");
+    return years.value + " at " + hours.value;
+  }
+};
+
 export type UseDateFormatReturn = ReturnType<typeof useDateFormat>;

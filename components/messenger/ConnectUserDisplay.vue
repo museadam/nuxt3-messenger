@@ -13,8 +13,7 @@
       <div v-auto-animate class="">
 
         <h3 v-auto-animate v-for="user in roomDetails.users">
-          <div v-if="connectUsers.filter((uss: User) => uss.id === user.id)[0]" rounded="sm" class="userDiv "
-            outline="green">
+          <div v-if="useFilterConnected(user.id, connectUsers)" rounded="sm" class="userDiv " outline="green">
 
             <p> {{ user.name }} is <span color="green">Connected
               </span></p>
@@ -34,8 +33,7 @@
 
 
 <script setup lang="ts">
-import { User } from '~/types/user'
-import type { Conversation } from "@prisma/client";
+import { BasicUser, RoomDetail } from '~/types/user'
 
 const route = useRoute()
 const roomStr = route.params.room.toString()
@@ -43,10 +41,13 @@ const roomStr = route.params.room.toString()
 let room = ref(roomStr)
 
 defineProps<{
-  connectUsers: Ref<User[]>
-  roomDetails: Conversation
+  connectUsers: BasicUser[]
+  roomDetails: Partial<RoomDetail>
 
 }>()
+const useFilterConnected = (id: string, users: BasicUser[]) => {
+  return users.filter((user: BasicUser) => user.id === id)[0]
+}
 
 // console.log(rooms.users)
 

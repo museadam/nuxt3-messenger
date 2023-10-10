@@ -19,6 +19,7 @@ model User {
   role          Role           @default(BASIC)
   messages      Message[]
   conversations Conversation[]
+  notifications Notification[]
 }
 
 model Message {
@@ -30,6 +31,8 @@ model Message {
   conversation Conversation @relation(fields: [convoId], references: [id])
   text         String
   read         Boolean      @default(false)
+
+  Notification Notification[]
 }
 
 model Conversation {
@@ -39,6 +42,19 @@ model Conversation {
   messages  Message[]
   name      String    @unique
   private   Boolean   @default(false)
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  forId     String
+  for       User     @relation(fields: [forId], references: [id])
+
+  messageId String?
+  message   Message? @relation(fields: [messageId], references: [id])
+
+  read Boolean @default(false)
+  data Json?
 }
 
 enum Role {

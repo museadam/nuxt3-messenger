@@ -2,7 +2,8 @@
   <div>
     <div>
       <p class="text-xs">
-        {{ msg.createdAt }}
+
+        {{ useMessageFormat(msg.createdAt) }}
       </p>
     </div>
     <div>
@@ -26,4 +27,6 @@ import { Message } from '~/types/message'
 defineProps<{
   msg: Message
 }>()
+const date = useDateFormat(new Date, "MM/DD/YY")
+console.log(date.value)
 </script>

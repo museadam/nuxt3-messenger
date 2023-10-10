@@ -46,9 +46,11 @@
   </header>
 </template>
 <script setup lang="ts">
+import { Conversation, User } from '@prisma/client';
+
 let navShow = ref(false)
-const currentUser = useState('currentUser')
-const rooms = useState('rooms')
+const currentUser: Ref<User> = useState('currentUser')
+const rooms: Ref<Conversation[]> = useState('rooms')
 
 const open = () => {
 
