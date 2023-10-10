@@ -101,21 +101,28 @@ onBeforeRouteLeave(() => {
   clearNuxtState('messages')
   clearNuxtState('message')
 })
+let sending = false
 const send = async () => {
   console.log('sending')
   const userId = currentUser.value.id
   // console.log(userId)
 
-  const msg = useState('message')
+  const msg: Ref<string> = useState('message')
   console.log(msg)
 
   const convoId = room.value
   // console.log(convoId)
+  if (!sending) {
+    sending = true
 
-  await onSendMessage(msg.value, convoId, userId)
-  clearNuxtState('message')
-  console.log('sent')
+    await onSendMessage(msg.value, convoId, userId)
+    clearNuxtState('message')
+    console.log('sent')
+    sending = false
+  } else {
+    console.log('still sending...')
 
+  }
 }
 
 

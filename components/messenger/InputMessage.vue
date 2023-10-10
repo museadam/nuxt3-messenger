@@ -1,13 +1,12 @@
 <template>
   <div class="flex">
-    <form class="flex w-100%">
+    <span class="flex w-100%">
 
-      <input v-model="message" class="px-2 m-1 p-3 rounded" label="Create a message"
-        @keyup.enter.prevent.stop.once="$emit('send')" />
-      <button rounded="xl" class="p-2 m-2" @click.prevent.stop.once="$emit('send')">
+      <input v-model="message" class="px-2 m-1 p-3 rounded" label="Create a message" @keyup.enter="$emit('send')" />
+      <button rounded="xl" class="p-2 m-2" @click="$emit('send')">
         Send
       </button>
-    </form>
+    </span>
   </div>
 </template>
 

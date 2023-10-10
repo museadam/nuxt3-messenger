@@ -16,8 +16,6 @@ export default defineEventHandler(async (event) => {
     response.status = 200;
     response.data = getUser;
   }
-  console.log(getUser);
-
   return {
     ...getUser,
   };
