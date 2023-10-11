@@ -7,7 +7,6 @@
 # RUN apt-get update && \
 #   npm ci && \
 #   npm run build
-# FROM alpine:3.8
 
 
 
@@ -19,25 +18,11 @@ FROM node:${NODE_VERSION}-slim as base
 ARG PORT=3000
 
 ENV NODE_ENV=production
-ENV OPENSSL_VERSION="1.0.2p"
 
 WORKDIR /src
 # Build
 FROM base as build
 
-RUN set -x \
-  ### BUILD OpenSSL
-  && wget --no-check-certificate -O /tmp/openssl-${OPENSSL_VERSION}.tar.gz "https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz" \
-  && tar -xvf /tmp/openssl-${OPENSSL_VERSION}.tar.gz -C /tmp/ \
-  && rm -rf /tmp/openssl-${OPENSSL_VERSION}.tar.gz \ 
-  && cd /tmp/openssl-${OPENSSL_VERSION} \
-  && ./Configure linux-x86_64 shared\
-  && make \
-  && make test \
-  && make install \
-  && cd .. \
-  && rm -rf openssl-${OPENSSL_VERSION}
-ENV PATH /usr/local/ssl/bin:$PATH
 
 
 COPY --link package.json package-lock.json ./
@@ -53,12 +38,12 @@ RUN npm run builder
 RUN npm prune
 
 # Run
-FROM base
+# FROM base
 
-ENV PORT=$PORT
+# ENV PORT=$PORT
 
-COPY --from=build /src/.output /src/.output
+# COPY --from=build /src/.output /src/.output
 # Optional, only needed if you rely on unbundled dependencies
 # COPY --from=build /src/node_modules /src/node_modules
 
-CMD [ "node", ".output/server/index.mjs" ]
+# CMD [ "node", ".output/server/index.mjs" ]
