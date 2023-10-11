@@ -7,8 +7,23 @@
 # RUN apt-get update && \
 #   npm ci && \
 #   npm run build
-FROM alpine:3.8
+# FROM alpine:3.8
+
+
+
+
+ARG NODE_VERSION=18.16.0
+
+FROM node:${NODE_VERSION}-slim as base
+
+ARG PORT=3000
+
+ENV NODE_ENV=production
 ENV OPENSSL_VERSION="1.0.2p"
+
+WORKDIR /src
+# Build
+FROM base as build
 
 RUN set -x \
   ### BUILD OpenSSL
@@ -22,20 +37,7 @@ RUN set -x \
   && make install \
   && cd .. \
   && rm -rf openssl-${OPENSSL_VERSION}
-
 ENV PATH /usr/local/ssl/bin:$PATH
-ARG NODE_VERSION=18.16.0
-
-FROM node:${NODE_VERSION}-slim as base
-
-ARG PORT=3000
-
-ENV NODE_ENV=production
-
-WORKDIR /src
-# Build
-FROM base as build
-
 
 
 COPY --link package.json package-lock.json ./
