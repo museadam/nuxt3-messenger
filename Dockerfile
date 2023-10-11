@@ -7,7 +7,7 @@
 # RUN apt-get update && \
 #   npm ci && \
 #   npm run build
-
+FROM alpine:3.8
 ENV OPENSSL_VERSION="1.0.2p"
 
 RUN set -x \
