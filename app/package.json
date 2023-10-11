@@ -4,7 +4,10 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
+    "builder": "npx prisma migrate dev --preview-feature && npx prisma generate && nuxt build",
+
     "dev": "nuxt dev",
+
     "devDb": "npx prisma migrate dev --preview-feature && npx prisma generate && nuxt dev",
     "buildDb": "npx prisma migrate dev --preview-feature && npx prisma generate",
     "generate": "nuxt generate",
