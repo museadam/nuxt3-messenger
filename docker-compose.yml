@@ -4,7 +4,7 @@ services:
   nuxt:
     container_name: nuxt3-messenger
 
-    build: ./app/
+    build: ./
 #     # restart: always
 #     ports:
 #       - "3000:3000"
