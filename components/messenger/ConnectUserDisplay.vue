@@ -8,11 +8,12 @@
           </v-list-item-avatar>
         </v-badge> -->
 
-      <p>Lobby {{ room }}</p>
+      <h3> {{ room }} room</h3>
 
       <div v-auto-animate class="">
+        <p class="underline">Members </p>
 
-        <h3 v-auto-animate v-for="user in roomDetails.users">
+        <div v-auto-animate v-for="user in roomDetails.users">
           <div v-if="useFilterConnected(user.id, connectUsers)" rounded="sm" class="userDiv " outline="green">
 
             <p> {{ user.name }} is <span color="green">Connected
@@ -24,7 +25,7 @@
             <p> {{ user.name }} is <span color="red">Not Connected </span></p>
 
           </div>
-        </h3>
+        </div>
       </div>
 
     </div>

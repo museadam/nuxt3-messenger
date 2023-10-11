@@ -6,8 +6,8 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   // const { data } = body;
   const response: APIResponse<User> = { status: 500 };
-  console.log(body);
-  console.log("body");
+  // console.log(body);
+  // console.log("body");
 
   const createUser = await prisma.user.create({
     data: {

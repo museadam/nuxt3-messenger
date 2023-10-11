@@ -14,14 +14,15 @@ type KeyObj = {
 const getCookie: Ref<KeyObj> = useCookie("user");
 const id: Ref<string> = ref(getCookie?.value?.id ?? false);
 // console.log(id)
-let user: Ref<User>;
+let user: globalThis.Ref<User>;
 if (id?.value) {
-  const res = await useGetUser(id?.value);
+  const res: globalThis.Ref<User> = await useGetUser(id?.value);
   user = res
+  if (user?.value) {
+    useState("currentUser", () => user.value);
+  }
 }
-if (user?.value) {
-  useState("currentUser", () => user.value);
-}
+
 const getChat = await useChatRooms();
 console.log(getChat)
 useState("rooms", () => getChat.value?.conversations ?? []);

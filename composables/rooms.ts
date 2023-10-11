@@ -26,3 +26,13 @@ export const useAddNewMember = async (userId: string, room: string) => {
 
   return newRoom;
 };
+
+export const useDeleteRoom = async (room: string) => {
+  await useFetch("/api/v1/conversations", {
+    method: "DELETE",
+    body: {
+      roomId: room,
+    },
+  });
+  return;
+};

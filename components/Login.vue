@@ -25,12 +25,12 @@ let email: string;
 
 
 // const emailTester = new RegExp(email)
-
+let router = useRouter()
 async function login() {
   try {
     email.toLowerCase();
 
-    const loginResponse: APIResponse<User> = await $fetch('/api/v1/users/login', {
+    const loginResponse: APIResponse<User> = await $fetch('/api/v1/user/login', {
       method: "POST",
       body: {
         email,
@@ -45,7 +45,7 @@ async function login() {
         }
       )
       const currentUser = useState('currentUser', () => loginResponse.data)
-
+      router.push('/')
     }
   } catch (err) {
     console.error(err);

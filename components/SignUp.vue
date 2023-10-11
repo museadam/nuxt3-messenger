@@ -36,6 +36,8 @@ let lName: string;
 let fName: string;
 
 // const emailTester = new RegExp(email)
+let router = useRouter()
+
 const signUp = async () => {
   name = fName + ' ' + lName;
   try {
@@ -43,7 +45,7 @@ const signUp = async () => {
     const lastName = lName;
     email.toLowerCase();
 
-    const signUpResponse: APIResponse<User> = await $fetch('/api/v1/users/sign-up', {
+    const signUpResponse: APIResponse<User> = await $fetch('/api/v1/user/sign-up', {
       method: "POST",
       body: {
         name,
@@ -63,6 +65,8 @@ const signUp = async () => {
         }
       )
       const currentUser = useState('currentUser', () => signUpResponse.data)
+      router.push('/')
+
       // console.log(currentUser.value)
       // localStorage.setItem('User', JSON.stringify({
       //   id: signUpResponse.data?.id

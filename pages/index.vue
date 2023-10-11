@@ -14,11 +14,24 @@
               Create
             </button>
           </div>
-          <li class="mb-6 li" @click="createRoom = !createRoom">
-            Create a new room
+          <li class="mb-6 li">
+            <button class=" btn" @click="createRoom = !createRoom">
+              Create a new room
+            </button>
+
           </li>
-          <li class="li" v-for="room in rooms" @click="$router.push(`/rooms/${room.name}?id=${room.id}`)">
-            {{ room.name }}
+          <li v-auto-animate class="li" v-for="room, i in rooms" :key="i">
+            <div class="flex">
+              <button class="btn" @click="$router.push(`/rooms/${room.name}?id=${room.id}`)">
+
+                {{ room.name }}
+              </button>
+              <button v-if="currentUser.role === 'ADMIN'" @click="deleteRoom(i)" rounded="full"
+                class="ml-5 p-1 hover:bg-light-900" color="red-4 hover:red-7 ">
+                <div class="i-ooui:trash trash" />
+              </button>
+            </div>
+
           </li>
 
         </ul>
@@ -32,27 +45,55 @@
   </div>
 </template>
 <script setup lang="ts">
-const currentUser = useState('currentUser')
+import type { Conversation, User } from "@prisma/client";
+
+const currentUser: Ref<User> = useState('currentUser')
 const getChat = await useChatRooms()
-const rooms = useState('rooms', () => getChat.value?.conversations ?? [])
+useState('rooms', () => getChat.value?.conversations ?? [])
+let rooms: Ref<Conversation[]> = useState('rooms')
+
 let createRoom = ref(false)
 let newRoom = ref('')
+
 async function createNewRoom() {
+  createRoom.value = false
+
   const res = await useCreateRoom(newRoom.value)
   rooms.value.push(res.value?.conversation)
   newRoom.value = ''
+
+}
+async function deleteRoom(i: number) {
+  const currentRoom = rooms.value[i]
+  const id = currentRoom.id
+  await useDeleteRoom(id)
+  console.log(rooms.value)
+
+  rooms.value.splice(i, 1)
+
+  console.log(rooms)
 }
 </script>
 
 <style>
 .li {
   list-style: none;
-  @apply bg-light-50 outline outline-black m-2 p-3;
+  @apply m-2 p-3;
+
 }
 
-.li:hover {
+.trash {
   cursor: pointer;
-  @apply bg-dark-50;
+}
+
+.btn {
+  all: unset;
+  @apply bg-light-50 outline outline-black p-1;
+}
+
+.btn:hover {
+  cursor: pointer;
+  @apply bg-blueGray;
 
 }
 </style>

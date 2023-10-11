@@ -1,7 +1,7 @@
 
 <template>
   <header>
-    <nav v-auto-animate class="flex mb-10">
+    <nav v-auto-animate class="flex mb-10 relative">
 
       <div @click="open" color="green" class="i-ooui:menu hover:cursor-pointer" />
       <!-- <i class="text-white  sm:icon-sm md:icon-md" />
@@ -19,17 +19,17 @@
           </li>
           <div v-if="rooms" class="chatrooms">
             <li v-for="room in rooms" class="dropdown-items" @click="$router.push(`/rooms/${room.name}?id=${room.id}`)">
-              <div class="flex">
-                <div class="i-ooui:message" />
-                <p>{{ room.name }}</p>
+              <div class="flex justify-between">
+                <span class="p-1">
+                  <div class="i-ooui:message" />
+                </span>
+                <span class="p-1">{{ room.name }}</span>
               </div>
             </li>
           </div>
         </div>
         <div v-if="currentUser?.id">
-          <li class="btmItem dropdown-items" color="red" @click="
-            $router.push('/login')
-            ">
+          <li class="btmItem dropdown-items" color="red" @click="signOut">
             <div>Sign out</div>
           </li>
         </div>
@@ -64,8 +64,13 @@ watch(router.currentRoute, () => {
   navShow.value = false
 })
 
+function signOut() {
+
+  router.push('/login')
+  clearNuxtState('currentUser')
 
 
+}
 function onClickOutside() {
   navShow.value = false
 }
@@ -102,6 +107,6 @@ function onClickOutside() {
 }
 
 .btmItem {
-  @apply fixed bottom-0 m-2;
+  @apply fixed bottom-4;
 }
 </style>

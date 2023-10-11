@@ -28,7 +28,7 @@ model Message {
   fromId       String
   from         User         @relation(fields: [fromId], references: [id])
   convoId      String
-  conversation Conversation @relation(fields: [convoId], references: [id])
+  conversation Conversation @relation(fields: [convoId], references: [id], onDelete: Cascade)
   text         String
   read         Boolean      @default(false)
 
