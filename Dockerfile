@@ -20,7 +20,7 @@ WORKDIR /src
 # Build
 FROM base as build
 
-COPY --link package.json package-lock.json prisma/ /src/
+COPY --link package.json package-lock.json /src/prisma/ /src/
 RUN npm ci --omit=dev
 
 COPY --link . .
