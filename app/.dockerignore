@@ -13,3 +13,7 @@ dist
 prisma
 # Other
 README.md
+.git
+.gitignore
+*.md
+dist
