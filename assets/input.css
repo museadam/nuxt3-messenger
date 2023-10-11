@@ -1,0 +1,61 @@
+
+
+.labelWrapper {
+position: relative;
+display: flex;
+}
+
+.labelWrapper label {
+position: absolute;
+pointer-events: none;
+left: 12px;
+top: 0;
+font-size: 14px;
+transition: 0.2s ease-out;
+color: black;
+padding: 0 4px;
+background-color: white
+}
+.dark .labelWrapper label {
+color: white
+}
+
+.labelWrapper .inputStyle {
+padding: 12px;
+border: 2px solid black;
+border-radius: 4px;
+font-size: 14px;
+color: black;
+background: none;
+background-color: white;
+margin-bottom: 8px;
+margin-top: 8px
+}
+
+.dark .labelWrapper .inputStyle {
+background-color: rgba(35, 35, 35);
+border: 2px solid white;
+color: white
+}
+
+.labelWrapper .inputStyle:focus {
+border-color: #4285f4;
+outline: none
+}
+
+.labelWrapper .inputStyle:focus + label, .labelWrapper .inputStyle:not(:placeholder-shown) + label
+{
+  top: 0;
+  font-size: 12px;
+  background-color: white;
+  padding: 0 4px;
+  border-radius: 4px 4px 0 0
+}
+
+.dark .labelWrapper .inputStyle:focus + label, .dark .labelWrapper .inputStyle:not(:placeholder-shown) + label
+{
+  background-color: rgba(35, 35, 35)
+}
+
+
+.labelWrapper .inputStyle:focus + label {}

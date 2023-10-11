@@ -40,7 +40,7 @@ const roomDetails: Partial<RoomDetail> = reactive(rooms.value.filter((roo: Conve
 // console.log(roomDetails)
 // console.log('roomDetails')
 
-let connectUsers = ref()
+let connectUsers: Ref<BasicUser[]> = ref([])
 const user: User = currentUser.value
 const theUsers = roomDetails.users ?? []
 const checkIfMember = theUsers.filter((aUser: BasicUser) => aUser.id === user.id)[0] ?? false

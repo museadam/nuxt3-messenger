@@ -66,9 +66,9 @@ watch(router.currentRoute, () => {
 
 function signOut() {
 
-  router.push('/login')
+  navigateTo('/login')
   clearNuxtState('currentUser')
-
+  useSetCookie('user', {})
 
 }
 function onClickOutside() {

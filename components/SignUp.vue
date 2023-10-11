@@ -6,11 +6,13 @@
         <h1 class="company">Sign Up</h1>
       </div>
       <p class="msg">Create Your Login</p>
-      <div class="form">
-        <form>
-          <input type="text" placeholder="First name" class="text" id="firstName" required v-model="fName" /><br />
-          <input type="text" placeholder="Last name" class="text" id="lastName" required v-model="lName" /><br />
-          <input type="text" placeholder="Email" class="text" id="email" required v-model="email" /><br />
+      <div class="form card">
+        <form class="card">
+          <VInput :label="'First Name'" type="text" placeholder="First name" id="firstName" required
+            v-model:inputValue="fName" />
+          <VInput :label="'Last Name'" type="text" placeholder="Last name" id="lastName" required
+            v-model:inputValue="lName" />
+          <VInput :label="'Email'" type="text" placeholder="Email" id="email" required v-model:inputValue="email" />
 
           <button rounded="xl" class="p-2 mt-1" bg="green" @click.once.prevent="signUp" id="do-login">Submit</button>
           <!-- <a href="/" class="forgot">Forgot?</a> -->
@@ -30,48 +32,28 @@ import type { User } from "@prisma/client";
 import { APIResponse } from '~/types/api'
 
 
-let name: string;
-let email: string;
-let lName: string;
-let fName: string;
+let email: Ref<string> = ref('');
+let lName: Ref<string> = ref('');
+let fName: Ref<string> = ref('');
 
 // const emailTester = new RegExp(email)
-let router = useRouter()
 
 const signUp = async () => {
-  name = fName + ' ' + lName;
   try {
-    const firstName = fName;
-    const lastName = lName;
-    email.toLowerCase();
-
-    const signUpResponse: APIResponse<User> = await $fetch('/api/v1/user/sign-up', {
-      method: "POST",
-      body: {
-        name,
-        firstName,
-        lastName,
-        email,
-      },
+    const mail = email.value.toLowerCase();
+    const name = fName.value + ' ' + lName.value;
+    const signUpResponse: APIResponse<User> = await useSignUp({
+      name,
+      firstName: fName.value,
+      lastName: lName.value,
+      mail,
     })
-    // console.log(signUpResponse.status)
-
     if (signUpResponse.status === 200) {
-      const user = useCookie(
-        'user',
-        {
-          default: () => ({ id: signUpResponse.data?.id }),
-          watch: false
-        }
-      )
-      const currentUser = useState('currentUser', () => signUpResponse.data)
-      router.push('/')
-
-      // console.log(currentUser.value)
-      // localStorage.setItem('User', JSON.stringify({
-      //   id: signUpResponse.data?.id
-      // }))
-
+      useSetCookie('user', {
+        id: signUpResponse.data?.id
+      })
+      useState('currentUser', () => signUpResponse.data)
+      navigateTo('/')
     }
   } catch (err) {
     console.error(err);

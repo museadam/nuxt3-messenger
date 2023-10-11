@@ -9,7 +9,7 @@
             Chat rooms
           </h2>
           <div v-if="createRoom" class="flex">
-            <input v-model="newRoom" placeholder="Name" />
+            <VInput :label="'New Chat Room'" v-model:inputValue="newRoom" placeholder="Name" />
             <button @click.once="createNewRoom">
               Create
             </button>
@@ -28,7 +28,7 @@
               </button>
               <button v-if="currentUser.role === 'ADMIN'" @click="deleteRoom(i)" rounded="full"
                 class="ml-5 p-1 hover:bg-light-900" color="red-4 hover:red-7 ">
-                <div class="i-ooui:trash trash" />
+                <div class="i-ooui:trash cursor-pointer" />
               </button>
             </div>
 
@@ -82,13 +82,10 @@ async function deleteRoom(i: number) {
 
 }
 
-.trash {
-  cursor: pointer;
-}
 
 .btn {
   all: unset;
-  @apply bg-light-50 outline outline-black p-1;
+  @apply bg-light-50 outline outline-black p-1 rounded;
 }
 
 .btn:hover {

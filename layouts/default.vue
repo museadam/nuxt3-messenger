@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import '../style.css'
+import '../assets/style.css'
 import { User } from "@prisma/client";
 type KeyObj = {
   id: string

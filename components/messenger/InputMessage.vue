@@ -1,21 +1,19 @@
 <template>
   <div class="flex">
-    <span class="flex w-100%">
+    <span class="flex-grow flex justify-between">
 
-      <input v-model="message" class="px-2 m-1 p-3 rounded" label="Create a message" @keyup.enter="$emit('send')" />
-      <button rounded="xl" class="p-2 m-2" @click="$emit('send')">
-        Send
-      </button>
+      <VInput v-model:inputValue="message" class=" flex-grow rounded" :label="'Type a message'"
+        @keyup.enter="$emit('send')" />
+      <div class=" justify-end">
+        <button rounded="xl" class="p-2 m-2" @click="$emit('send')">
+          Send
+        </button>
+      </div>
     </span>
   </div>
 </template>
 
-<script setup>
-let message = useState('message')
+<script setup lang="ts">
+let message: Ref<string> = useState('message')
 </script>
 
-<style>
-input {
-  width: 100%;
-}
-</style>

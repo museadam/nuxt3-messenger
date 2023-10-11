@@ -2,16 +2,10 @@
   <div>
     <div v-auto-animate v-if="connectUsers" rounded="xl" class=" flex flex-col outline m-1 p-1" bg="gray-100"
       outline-color="light-blue">
-      <!-- <v-badge :color="userBadgeColor" :offset-y="22" :offset-x="24" overlap dot bottom>
-          <v-list-item-avatar>
-            <v-img :src="toPhoto" />
-          </v-list-item-avatar>
-        </v-badge> -->
-
-      <h3> {{ room }} room</h3>
+      <h3 class="flex ml-1"> Room {{ room }} </h3>
 
       <div v-auto-animate class="">
-        <p class="underline">Members </p>
+        <p class="underline ml-1">Members </p>
 
         <div v-auto-animate v-for="user in roomDetails.users">
           <div v-if="useFilterConnected(user.id, connectUsers)" rounded="sm" class="userDiv " outline="green">
@@ -44,16 +38,12 @@ let room = ref(roomStr)
 defineProps<{
   connectUsers: BasicUser[]
   roomDetails: Partial<RoomDetail>
-
 }>()
+
 const useFilterConnected = (id: string, users: BasicUser[]) => {
   return users.filter((user: BasicUser) => user.id === id)[0]
 }
 
-// console.log(rooms.users)
-
-
-// console.log(us)
 </script>
 
 <style>
