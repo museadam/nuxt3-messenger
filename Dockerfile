@@ -22,7 +22,7 @@ FROM base as build
 
 COPY --link package.json package-lock.json ./
 COPY --link prisma ./
-
+RUN apt-get update -y && apt-get install -y openss
 RUN npm install --production=false
 
 COPY --link . .
