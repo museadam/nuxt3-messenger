@@ -4,8 +4,8 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "builder": "export NODE_OPTIONS=--openssl-legacy-provider && prisma generate && prisma migrate deploy && nuxt build",
-    "start": "node .output/server/index.mjs",
+    "builder": "export NODE_OPTIONS=--openssl-legacy-provider && nuxt build",
+    "start": "prisma generate && prisma migrate deploy && node .output/server/index.mjs",
 
     "dev": "nuxt dev",
 
