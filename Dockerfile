@@ -8,7 +8,7 @@
 #   npm ci && \
 #   npm run build
 
-ARG NODE_VERSION=18.14.2
+ARG NODE_VERSION=18.16.0
 
 FROM node:${NODE_VERSION}-slim as base
 
@@ -20,8 +20,8 @@ WORKDIR /src
 # Build
 FROM base as build
 
-COPY --link package.json package-lock.json /src/
-RUN npm install --production=false
+COPY --link package.json package-lock.json prisma/ /src/
+RUN npm ci --omit=dev
 
 COPY --link . .
 
