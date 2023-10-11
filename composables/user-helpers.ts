@@ -34,11 +34,11 @@ export const useGetUser = async (id: string) => {
 
 export const useGetUsers = async () => {
   const { data: users } = await useFetch("/api/v1/users");
-  return users;
+  return users.value.users;
 };
 
 // admin
-const useDeleteUser = async (userId: string) => {
+export const useDeleteUser = async (userId: string) => {
   await useFetch("/api/v1/users", {
     method: "DELETE",
     body: {

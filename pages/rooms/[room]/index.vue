@@ -7,7 +7,7 @@ import { MessengerChatRoom } from '#components'
 </script>
 
 <style>
-body {
+/* body {
   overflow-y: hidden;
-}
+} */
 </style>

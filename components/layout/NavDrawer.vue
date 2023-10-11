@@ -28,6 +28,9 @@
             </li>
           </div>
         </div>
+        <li v-if="currentUser?.role === 'ADMIN'" class="dropdown-items" @click="$router.push('/admin')">
+          Admin
+        </li>
         <div v-if="currentUser?.id">
           <li class="btmItem dropdown-items" color="red" @click="signOut">
             <div>Sign out</div>

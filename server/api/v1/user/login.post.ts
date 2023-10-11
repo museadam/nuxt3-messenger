@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   const { email } = body;
   const response: APIResponse<User> = { status: 500 };
-
+  // await prisma.message.deleteMany();
   const getUser = await prisma.user.findUnique({
     where: {
       email,

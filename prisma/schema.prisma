@@ -26,7 +26,7 @@ model Message {
   id           String       @id @default(uuid())
   createdAt    DateTime     @default(now())
   fromId       String
-  from         User         @relation(fields: [fromId], references: [id])
+  from         User         @relation(fields: [fromId], references: [id], onDelete: Cascade)
   convoId      String
   conversation Conversation @relation(fields: [convoId], references: [id], onDelete: Cascade)
   text         String

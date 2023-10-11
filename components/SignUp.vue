@@ -42,11 +42,11 @@ const signUp = async () => {
   try {
     const mail = email.value.toLowerCase();
     const name = fName.value + ' ' + lName.value;
-    const signUpResponse: APIResponse<User> = await useSignUp({
+    const signUpResponse = await useSignUp({
       name,
       firstName: fName.value,
       lastName: lName.value,
-      mail,
+      email: mail,
     })
     if (signUpResponse.status === 200) {
       useSetCookie('user', {
