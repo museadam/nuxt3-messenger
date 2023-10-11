@@ -50,7 +50,9 @@ if (!checkIfMember) {
   const userId = user.id
   const roomId = room.value
   await useAddNewMember(userId, roomId)
-  roomDetails
+  // roomDetails
+  connectUsers.value.push({ id: user.id, name: user.name })
+
 }
 
 const id = room.value ?? ''
