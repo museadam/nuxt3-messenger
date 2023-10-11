@@ -8,24 +8,6 @@
 #   npm ci && \
 #   npm run build
 
-ARG NODE_VERSION=18.16.0
-
-FROM node:${NODE_VERSION}-slim as base
-
-ARG PORT=3000
-
-ENV NODE_ENV=production
-
-WORKDIR /src
-# Build
-FROM base as build
-
-
-
-COPY --link package.json package-lock.json ./
-COPY --link prisma ./
-RUN apt-get update -y && apt-get install -y openssl
-
 ENV OPENSSL_VERSION="1.0.2p"
 
 RUN set -x \
@@ -42,6 +24,24 @@ RUN set -x \
   && rm -rf openssl-${OPENSSL_VERSION}
 
 ENV PATH /usr/local/ssl/bin:$PATH
+ARG NODE_VERSION=18.16.0
+
+FROM node:${NODE_VERSION}-slim as base
+
+ARG PORT=3000
+
+ENV NODE_ENV=production
+
+WORKDIR /src
+# Build
+FROM base as build
+
+
+
+COPY --link package.json package-lock.json ./
+COPY --link prisma ./
+# RUN apt-get update -y && apt-get install -y openssl
+
 
 RUN npm install --production=false
 
