@@ -20,9 +20,29 @@ WORKDIR /src
 # Build
 FROM base as build
 
+
+
 COPY --link package.json package-lock.json ./
 COPY --link prisma ./
-RUN apt-get update -y && apt-get install -y openss
+RUN apt-get update -y && apt-get install -y openssl
+
+ENV OPENSSL_VERSION="1.0.2p"
+
+RUN set -x \
+  ### BUILD OpenSSL
+  && wget --no-check-certificate -O /tmp/openssl-${OPENSSL_VERSION}.tar.gz "https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz" \
+  && tar -xvf /tmp/openssl-${OPENSSL_VERSION}.tar.gz -C /tmp/ \
+  && rm -rf /tmp/openssl-${OPENSSL_VERSION}.tar.gz \ 
+  && cd /tmp/openssl-${OPENSSL_VERSION} \
+  && ./Configure linux-x86_64 shared\
+  && make \
+  && make test \
+  && make install \
+  && cd .. \
+  && rm -rf openssl-${OPENSSL_VERSION}
+
+ENV PATH /usr/local/ssl/bin:$PATH
+
 RUN npm install --production=false
 
 COPY --link . .
