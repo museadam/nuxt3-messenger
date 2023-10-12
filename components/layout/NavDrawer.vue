@@ -18,13 +18,15 @@
             <h4>Chat Rooms</h4>
           </li>
           <div v-if="rooms" class="chatrooms">
-            <li v-for="room in rooms" class="dropdown-items" @click="$router.push(`/rooms/${room.name}?id=${room.id}`)">
-              <div class="flex justify-between">
-                <span class="p-1">
-                  <div class="i-ooui:message" />
-                </span>
-                <span class="p-1">{{ room.name }}</span>
-              </div>
+            <li v-for="room in rooms" class="dropdown-items">
+              <NuxtLink :to="`/rooms/${room.name}?id=${room.id}`">
+                <div class="flex justify-between">
+                  <span class="p-1">
+                    <div class="i-ooui:message" />
+                  </span>
+                  <span class="p-1">{{ room.name }}</span>
+                </div>
+              </NuxtLink>
             </li>
           </div>
         </div>

@@ -81,6 +81,8 @@ onMounted(() => {
     // let newMembers = []
     connected.value = socket.connected
     for (let i = 0; i < users.length; i++) {
+      console.log('user: ' + users[i].name)
+
       const foundDetails = roomDetails.users?.filter((roomUser) => roomUser.id === users[i].id)[0] ?? false
       if (foundDetails) {
         detailsInRoomYet = true
@@ -114,11 +116,20 @@ onMounted(() => {
     connected.value = socket.connected
   })
 })
-onBeforeRouteLeave(() => {
+let router = useRouter()
+
+watch(router.currentRoute, () => {
+  console.log('route leave')
   socket.emit('leave-room', room.value, user)
   clearNuxtState('messages')
   clearNuxtState('message')
 })
+// onBeforeRouteLeave(() => {
+//   console.log('route leave')
+//   socket.emit('leave-room', room.value, user)
+//   clearNuxtState('messages')
+//   clearNuxtState('message')
+// })
 let sending = false
 const send = async () => {
   console.log('sending')

@@ -32,11 +32,16 @@ async function login() {
     if (loginResponse.status === 200) {
       const user: Ref<{ id: string }> = useCookie('user')
       if (user?.value?.id) {
+        console.log('cookie found')
         user.value.id = loginResponse.data.id
       } else {
+        console.log('setting new cookie ')
+
         useSetCookie('user', {
           id: loginResponse.data?.id
         })
+        user.value = { id: loginResponse.data.id }
+
       }
       useState('currentUser', () => loginResponse.data)
       navigateTo('/')

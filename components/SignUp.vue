@@ -54,6 +54,8 @@ const signUp = async () => {
         useSetCookie('user', {
           id: signUpResponse.data?.id
         })
+        user.value = { id: loginResponse.data.id }
+
       }
       useState('currentUser', () => signUpResponse.data)
       navigateTo('/')
