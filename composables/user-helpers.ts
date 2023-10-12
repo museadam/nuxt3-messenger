@@ -49,10 +49,12 @@ export const useDeleteUser = async (userId: string) => {
 };
 
 // cookie
-export const useSetCookie = (name: string, data: unknown) => {
+interface dataObj {
+  id?: string;
+}
+export const useSetCookie = (name: string, data: dataObj) => {
   const res = useCookie(name, {
     default: () => ({ ...data }),
-    watch: false,
   });
   return res;
 };

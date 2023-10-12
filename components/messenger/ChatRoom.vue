@@ -35,8 +35,11 @@ if (room.value === '') {
 
 }
 
+const roomIndex = rooms.value.findIndex(obj => obj.id === room.value);
 
 const roomDetails: Partial<RoomDetail> = reactive(rooms.value.filter((roo: Conversation) => roo.id === room.value)[0])
+
+
 // console.log(roomDetails)
 // console.log('roomDetails')
 
@@ -47,12 +50,12 @@ const checkIfMember = theUsers.filter((aUser: BasicUser) => aUser.id === user.id
 // console.log(checkIfMember)
 
 if (!checkIfMember) {
-  roomDetails.users?.push({ id: user.id, name: user.name })
+  rooms.value[roomIndex].users?.push({ id: user.id, name: user.name })
 
   const userId = user.id
   const roomId = room.value
   await useAddNewMember(userId, roomId)
-  connectUsers.value.push({ id: user.id, name: user.name })
+  // connectUsers.value.push({ id: user.id, name: user.name })
 }
 
 const id = room.value ?? ''
@@ -82,7 +85,7 @@ onMounted(() => {
       if (foundDetails) {
         detailsInRoomYet = true
       } else {
-        roomDetails.users?.push(users[i])
+        rooms.value[roomIndex].users?.push(users[i])
       }
     }
     // if (!detailsInRoomYet) {

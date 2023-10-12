@@ -68,10 +68,10 @@ watch(router.currentRoute, () => {
 })
 
 function signOut() {
-
   navigateTo('/login')
-  clearNuxtState('currentUser')
-  useSetCookie('user', {})
+
+  let userCookie: Ref<{ id: string } | {}> = useCookie('user')
+  userCookie.value = {}
 
 }
 function onClickOutside() {

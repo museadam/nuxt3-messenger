@@ -30,9 +30,14 @@ async function login() {
     email.toLowerCase();
     const loginResponse: APIResponse<User> = await useLogin(email)
     if (loginResponse.status === 200) {
-      useSetCookie('user', {
-        id: loginResponse.data?.id
-      })
+      const user: Ref<{ id: string }> = useCookie('user')
+      if (user?.value?.id) {
+        user.value.id = loginResponse.data.id
+      } else {
+        useSetCookie('user', {
+          id: loginResponse.data?.id
+        })
+      }
       useState('currentUser', () => loginResponse.data)
       navigateTo('/')
     }

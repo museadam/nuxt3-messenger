@@ -27,9 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import type { User } from "@prisma/client";
 
-import { APIResponse } from '~/types/api'
 
 
 let email: Ref<string> = ref('');
@@ -49,9 +47,14 @@ const signUp = async () => {
       email: mail,
     })
     if (signUpResponse.status === 200) {
-      useSetCookie('user', {
-        id: signUpResponse.data?.id
-      })
+      const user: Ref<{ id: string }> = useCookie('user')
+      if (user?.value?.id) {
+        user.value.id = signUpResponse.data.id
+      } else {
+        useSetCookie('user', {
+          id: signUpResponse.data?.id
+        })
+      }
       useState('currentUser', () => signUpResponse.data)
       navigateTo('/')
     }
