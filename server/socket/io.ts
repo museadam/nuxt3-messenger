@@ -47,13 +47,12 @@ export default defineIOHandler((io) => {
 
     socket.on("leave-room", (room, user) => {
       socket.leave(room);
-      const user1 = users.removeUser(user.id);
-      if (user1) {
-        // console.log('User left the chat')
-        io.to(room).emit("updated-user-list", users.getUserList(room));
-        const message = "User left the chat";
-        io.to(room).emit("new-message", message);
-      }
+      const leftUser = users.removeUser(user.id);
+      // console.log();
+      // console.log('User left the chat')
+      io.to(room).emit("updated-user-list", users.getUserList(room));
+      const message = "User left the chat";
+      io.to(room).emit("new-message", message);
     });
   });
 });

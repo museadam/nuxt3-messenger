@@ -47,11 +47,12 @@ const checkIfMember = theUsers.filter((aUser: BasicUser) => aUser.id === user.id
 // console.log(checkIfMember)
 
 if (!checkIfMember) {
+  roomDetails.users?.push({ id: user.id, name: user.name })
+
   const userId = user.id
   const roomId = room.value
   await useAddNewMember(userId, roomId)
   connectUsers.value.push({ id: user.id, name: user.name })
-  roomDetails.users?.push({ id: user.id, name: user.name })
 }
 
 const id = room.value ?? ''
@@ -73,14 +74,20 @@ onMounted(() => {
   socket.on('updated-user-list', (users: User[]) => {
     // console.log('connected users: ' + users)
     console.log('updating connected users')
-
+    let detailsInRoomYet = false
+    // let newMembers = []
     connected.value = socket.connected
     for (let i = 0; i < users.length; i++) {
-      const detailsIncluded = roomDetails.users?.filter((roomUser) => roomUser.id === users[i].id)[0] ?? false
-      if (!detailsIncluded) {
-        roomDetails.users?.push({ id: user.id, name: user.name })
+      const foundDetails = roomDetails.users?.filter((roomUser) => roomUser.id === users[i].id)[0] ?? false
+      if (foundDetails) {
+        detailsInRoomYet = true
+      } else {
+        roomDetails.users?.push(users[i])
       }
     }
+    // if (!detailsInRoomYet) {
+    //   roomDetails.users?.push( ...newMembers)
+    // }
 
 
     connectUsers.value = users
