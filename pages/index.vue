@@ -10,12 +10,13 @@
           </h2>
           <div v-if="createRoom" class="flex">
             <VInput :label="'New Chat Room'" v-model:inputValue="newRoom" placeholder="Name" />
-            <button @click.once="createNewRoom">
+            <button class="newButton" @click.once="createNewRoom">
               Create
             </button>
           </div>
           <li class="mb-6 li">
-            <button class=" btn" @click="createRoom = !createRoom">
+            <button rounded="md" class=" p-3  bg-gray-blue-400 cursor-pointer hover:bg-blue"
+              @click="createRoom = !createRoom">
               Create a new room
             </button>
 
@@ -48,8 +49,8 @@
 import type { Conversation, User } from "@prisma/client";
 
 const currentUser: Ref<User> = useState('currentUser')
-const getChat = await useChatRooms()
-useState('rooms', () => getChat.value?.conversations ?? [])
+// const getChat = await useChatRooms()
+// useState('rooms', () => getChat.value?.conversations ?? [])
 let rooms: Ref<Conversation[]> = useState('rooms')
 
 let createRoom = ref(false)
@@ -57,11 +58,13 @@ let newRoom = ref('')
 
 async function createNewRoom() {
   createRoom.value = false
-
-  const res = await useCreateRoom(newRoom.value)
-  rooms.value.push(res.value?.conversation)
-  newRoom.value = ''
-
+  if (newRoom.value !== '') {
+    const res = await useCreateRoom(newRoom.value)
+    rooms.value.push(res.value?.conversation)
+    newRoom.value = ''
+  } else {
+    alert('Room name must not be empty string!')
+  }
 }
 async function deleteRoom(i: number) {
   const currentRoom = rooms.value[i]
@@ -82,6 +85,17 @@ async function deleteRoom(i: number) {
 
 }
 
+.newButton {
+  @apply bg-green-300 rounded m-2;
+
+}
+
+.newButton:hover {
+  cursor: pointer;
+
+  @apply bg-blueGray;
+
+}
 
 .btn {
   all: unset;
