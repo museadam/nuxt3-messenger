@@ -75,6 +75,13 @@ onMounted(() => {
     console.log('updating connected users')
 
     connected.value = socket.connected
+    for (let i = 0; i < users.length; i++) {
+      const detailsIncluded = roomDetails.users?.filter((roomUser) => roomUser.id === users[i].id)[0] ?? false
+      if (!detailsIncluded) {
+        roomDetails.users?.push({ id: user.id, name: user.name })
+      }
+    }
+
 
     connectUsers.value = users
     console.log('connected to room: ' + room.value)
