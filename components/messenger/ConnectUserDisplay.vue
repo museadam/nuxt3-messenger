@@ -2,7 +2,7 @@
   <div>
     <div v-auto-animate v-if="connectUsers" rounded="xl" class=" flex flex-col outline m-1 p-1" bg="gray-100"
       outline-color="light-blue">
-      <h3 class="flex ml-1"> Room {{ room }} </h3>
+      <h3 class="flex ml-1 underlined">{{ room }} </h3>
 
       <div v-auto-animate class="">
         <p class="underline ml-1">Members </p>

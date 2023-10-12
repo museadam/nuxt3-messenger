@@ -51,7 +51,7 @@ if (!checkIfMember) {
   const roomId = room.value
   await useAddNewMember(userId, roomId)
   connectUsers.value.push({ id: user.id, name: user.name })
-
+  roomDetails.users?.push({ id: user.id, name: user.name })
 }
 
 const id = room.value ?? ''
@@ -75,6 +75,7 @@ onMounted(() => {
     console.log('updating connected users')
 
     connected.value = socket.connected
+
     connectUsers.value = users
     console.log('connected to room: ' + room.value)
   })
